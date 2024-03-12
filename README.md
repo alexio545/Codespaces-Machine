@@ -1,7 +1,5 @@
-<<<<<<< HEAD
-# Ajay263-Predictive-Analytics-for-Workforce-Retention
-=======
-# Employee Future Predict
+
+# Predictive Analytics for Workforce Retention
 
 ## Motivation
 In a data science team, it is common to continuously try to find a better model than the existing one in production. It is important to make sure the service doesn't break when the new model is deployed. 
