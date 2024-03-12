@@ -1,0 +1,4 @@
+[core]
+    remote = origin
+['remote "origin"']
+    url = https://dagshub.com/Ajay263/Predictive_Analytics_for_Workforce_Retention.dvc
