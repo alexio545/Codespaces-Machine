@@ -1,18 +1,24 @@
 name: Test code and app
+
 on:
   pull_request:
     paths:
-      - config/**
-      - training/**
-      - application/**
-      - .github/workflows/test_training.yaml
+      - 'config/**'
+      - 'training/**'
+      - 'application/**'
+      - '.github/workflows/test_training.yaml'
+    paths-ignore:
+      - 'README.md'
+  push:
+    branches:
+      - main
+
 jobs:
   test_model:
     name: Test processed code and model
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 
-        id: checkout
         uses: actions/checkout@v2
 
       - name: Environment setup
@@ -49,4 +55,4 @@ jobs:
           bentoml serve ./application/src/create_service.py:service  & 
           sleep 10
           pytest application/tests
-          kill -9 `lsof -i:3000 -t`
+          kill -9 $(lsof -i:3000 -t)
