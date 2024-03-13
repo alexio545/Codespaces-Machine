@@ -110,7 +110,7 @@ def evaluate(config: DictConfig):
         # Get predictions
         prediction = predict(model, X_test)
 
-        # Calculate evaluation metrics
+        #3 Calculate evaluation metrics
         f1 = f1_score(y_test, prediction)
         print(f"F1 Score of this model is {f1}.")
 
