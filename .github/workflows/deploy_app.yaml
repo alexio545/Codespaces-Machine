@@ -74,16 +74,9 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          
-      - name: Containerize Bentos, push it to the Heroku app, and release the app
-        run: |
-          cd $(find ~/bentoml/bentos/predict_employee/ -type d -maxdepth 1 -mindepth 1)/env/docker
-          APP_NAME=employee-predict-1
-          heroku container:push web --app $APP_NAME  --context-path=../..
-          heroku container:release web --app $APP_NAME
+          bentoml build
+          bentoml containerize predict_employee:latest 
+          docker push predict_employee:latest 
 
   Continuous-Deployment:
     needs: build-and-push-ecr-image
