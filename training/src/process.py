@@ -50,10 +50,9 @@ def rename_columns(X: pd.DataFrame):
     Returns:
         pd.DataFrame: DataFrame with renamed columns.
     """
-    X.columns = X.columns.str.replace("[", "_", regex=True).str.replace(
-        "]", "", regex=True
-    )
+    X.columns = X.columns.str.replace(r"\[", "_", regex=True).str.replace(r"\]", "", regex=True)
     return X
+
 
 @hydra.main(version_base=None, config_path="../../config", config_name="main")
 def process_data(config: DictConfig):
