@@ -1,18 +1,20 @@
+from fastapi import FastAPI
+from pydantic import BaseModel
 import numpy as np
 import pandas as pd
-from fastapi import FastAPI
 from hydra import compose, initialize
 from patsy import dmatrix
-from pydantic import BaseModel
-import hydra
 import joblib
+
 from hydra.utils import to_absolute_path as abspath
-from omegaconf import DictConfig
-
-
 
 app = FastAPI()
 
+with initialize(config_path="../../config"):
+    config = compose(config_name="main")
+    FEATURES = config.process.features
+    MODEL_NAME = config.model.name
+model_path = f"../../{config.model.path}"
 
 class Employee(BaseModel):
     """
@@ -33,22 +35,14 @@ class Employee(BaseModel):
     EverBenched: str = "No"
     ExperienceInCurrentDomain: int = 1
 
-
-@hydra.main(config_path="../../config", config_name="main")
-def load_model(model_path: str, config: DictConfig):
+class PredictionResult(BaseModel):
     """
-    Load a machine learning model from a specified path.
+    Pydantic model representing prediction result.
 
-    Args:
-        model_path (str): Path to the serialized machine learning model file.
-        config (DictConfig): Configuration object containing Hydra configuration.
-
-    Returns:
-        object: The loaded machine learning model.
+    Attributes:
+        prediction (float): The prediction output.
     """
-    joblib.load(model_path)
-    model = load_model(abspath(MODEL_PATH))
-
+    prediction: float  # Adjust this field as per your model's prediction output type
 
 
 def add_dummy_data(df: pd.DataFrame):
@@ -103,20 +97,38 @@ def transform_data(df: pd.DataFrame):
     dummy_X = rename_columns(dummy_X)
     return dummy_X.iloc[0, :].values.reshape(1, -1)
 
+model = joblib.load(model_path)
+
+@app.get('/info')
+async def model_info():
+    """Return model information, version, how to call"""
+    return {
+        "name": xgboost,
+        "version": 2
+    }
 
 
-@app.post("/predict")
-async def predict(employee: Employee):
+@app.get('/health')
+async def service_health():
+    """Return service health"""
+    return {
+        "ok"
+    }
+
+
+
+@app.post("/predict", response_model=PredictionResult)
+def predict(employee: Employee):
     """
-    Transform the input data and make predictions.
+    Predict employee retention based on provided data.
 
     Args:
         employee (Employee): Employee data.
 
     Returns:
-        np.ndarray: Model predictions.
+        PredictionResult: Prediction result.
     """
     df = pd.DataFrame(employee.dict(), index=[0])
     df = transform_data(df)
-    result = model.predict(df)[0] # Assuming your model has a predict method
-    return {"prediction": result}
+    result = model.predict(df)[0]
+    return PredictionResult(prediction=result)
