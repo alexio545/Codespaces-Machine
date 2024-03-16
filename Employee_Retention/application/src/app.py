@@ -15,7 +15,7 @@ with initialize(config_path="../../config"):
     config = compose(config_name="main")
     FEATURES = config.process.features
     MODEL_NAME = config.model.name
-model_path = f"/app/{config.model.path}"
+model_path = f"app/{config.model.path}"
 print(model_path)
 
 class Employee(BaseModel):
