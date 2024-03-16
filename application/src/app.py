@@ -16,6 +16,7 @@ with initialize(config_path="../../config"):
     FEATURES = config.process.features
     MODEL_NAME = config.model.name
 model_path = f"../../{config.model.path}"
+print(model_path)
 
 class Employee(BaseModel):
     """
