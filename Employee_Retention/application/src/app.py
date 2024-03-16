@@ -6,6 +6,7 @@ from hydra import compose, initialize
 from patsy import dmatrix
 import joblib
 import uvicorn
+import os
 
 from hydra.utils import to_absolute_path as abspath
 
@@ -15,8 +16,12 @@ with initialize(config_path="../../config"):
     config = compose(config_name="main")
     FEATURES = config.process.features
     MODEL_NAME = config.model.name
-model_path = f"app/{config.model.path}"
-print(model_path)
+# model_path = f"app/{config.model.path}"
+# print(model_path)
+
+# Get the absolute path to the models folder inside the Docker container
+MODELS_DIR = "/Employee_Retention/models"
+model_path = os.path.join(MODELS_DIR, 'xgboost')
 
 class Employee(BaseModel):
     """
