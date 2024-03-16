@@ -1,6 +1,6 @@
 import warnings
 
-# Ignore warnings
+## Ignore warnings
 warnings.filterwarnings(action="ignore")
 
 import hydra
