@@ -3,7 +3,7 @@ from evaluate_model import evaluate
 from process import process_data
 from train_model import train
 
-
+#The main file
 @hydra.main(config_path="../../config", config_name="main")
 def main(config):
     """
