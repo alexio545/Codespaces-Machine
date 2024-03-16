@@ -1,11 +1,20 @@
 name: Test code and app
+
 on:
   pull_request:
     paths:
-      - config/**
-      - training/**
-      - application/**
-      - .github/workflows/test_training.yaml
+      - 'config/**'
+      - 'training/**'
+      - 'application/**'
+      - '.github/workflows/test_training.yaml'
+  push:
+    paths:
+      - 'config/**'
+      - 'training/**'
+      - 'application/**'
+      - '.github/workflows/test_training.yaml'
+  workflow_dispatch:
+
 jobs:
   test_model:
     name: Test processed code and model
