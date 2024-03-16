@@ -1,16 +1,51 @@
 FROM python:3.8-slim-buster
 
-RUN apt update -y && apt install awscli -y
+
 WORKDIR /app
 
 COPY . /app
 RUN pip install -r requirements.txt
 
-# Expose the port where the FastAPI server will run
-EXPOSE 8000
+# Copy the application code to the working directory
+COPY . .
 
-# Command to run the FastAPI server
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Expose the port on which the application will run
+EXPOSE 8080
+
+# Run the FastAPI application using uvicorn server
+CMD ["uvicorn", "application.src.app:app", "--host", "0.0.0.0", "--port", "8080"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
