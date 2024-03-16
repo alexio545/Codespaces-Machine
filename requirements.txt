@@ -15,4 +15,5 @@ requests
 scikit_learn
 streamlit
 xgboost
+fastapi[all]
 
