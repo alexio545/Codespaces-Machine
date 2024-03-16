@@ -139,6 +139,3 @@ def predict(employee: Employee):
     result = model.predict(df)[0]
     return PredictionResult(prediction=result)
 
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8080, reload=True)
