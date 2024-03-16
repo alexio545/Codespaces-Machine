@@ -219,13 +219,9 @@ target/
 
 # Hydra logs
 outputs
-/models
+
 venv
 .venv/ 
 __pycache__/ 
-DATA/ 
-data/ 
-  __pycache__/   
-data/ 
-/outputs/ 
+ 
 >>>>>>> c434525 (Added files for Bento Image)
